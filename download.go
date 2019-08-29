@@ -29,7 +29,6 @@ func NewDownloader(spiderName string, wg *sync.WaitGroup) Downloader {
 func (d *DoubanDownloader) Download() error {
 	log.Println("---func: Downloader start---")
 	defer d.wg.Done()
-	defer log.Println("---func: Downloader end---")
 
 	var wgi sync.WaitGroup
 	defer wgi.Wait()

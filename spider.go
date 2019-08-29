@@ -12,15 +12,16 @@ type SpiderInterface interface {
 }
 
 type Spiderx struct {
-	urls []string
-	name string
-	wg   *sync.WaitGroup
+	urls   []string
+	name   string
+	deepth int
+	wg     *sync.WaitGroup
 }
 
 func NewSpider(urls []string, name string, wg *sync.WaitGroup) SpiderInterface {
 	var spider SpiderInterface
 
-	src := Spiderx{urls, name, wg}
+	src := Spiderx{urls, name, Deepth, wg}
 
 	switch name {
 	case "Douban":
@@ -47,10 +48,9 @@ func (s *Spiderx) InitSpider(urls []string, callback func(*Response, *sync.WaitG
 // }
 
 func (s *Spiderx) SpiderRun(urls []string, StartParse func(*Response, *sync.WaitGroup)) {
+	defer s.wg.Done()
 	log.Println("---func: SpiderRun start---")
 	var wgi sync.WaitGroup
-	defer log.Println("---func: SpiderRun end---")
-	defer s.wg.Done()
 	defer wgi.Wait()
 
 	s.InitSpider(urls, StartParse)
